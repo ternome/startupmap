@@ -1,0 +1,41 @@
+{
+  "subject": "https://warmap.lol",
+  "retrieved_at": "2026-09-03T18:08:46Z",
+  "source": "https://warmap.lol/api/state",
+  "source_fields": {
+    "territories": 194,
+    "claimed": 194,
+    "outbound_clicks": 34385,
+    "visitors": 32235,
+    "online": 24,
+    "plundered_cents": 731100,
+    "world_price_cents": 500000
+  },
+  "derived_metrics": {
+    "current_owner_urls": 116,
+    "successful_claim_events": 365,
+    "territories_reconquered": 89,
+    "reconquered_territory_share": 0.4588,
+    "repeat_claim_events": 171,
+    "repeat_claim_event_share": 0.4685,
+    "clicks_per_visitor": 1.0667,
+    "plundered_dollars_per_visitor": 0.2268,
+    "current_owners_paid_cents": 384000,
+    "sum_of_next_minimum_prices_cents": 561500,
+    "top_10_territories_click_share": 0.4853
+  },
+  "floor_distribution": [
+    { "tier": "C", "floor_cents": 300, "territories": 97 },
+    { "tier": "B", "floor_cents": 600, "territories": 50 },
+    { "tier": "A", "floor_cents": 1200, "territories": 28 },
+    { "tier": "S", "floor_cents": 2500, "territories": 10 },
+    { "tier": "F", "floor_cents": 2500, "territories": 8 },
+    { "tier": "X", "floor_cents": 50000, "territories": 1 }
+  ],
+  "notes": [
+    "All source_fields are labels and values exposed by WARMAP's public API; they were not independently audited.",
+    "Derived metrics were calculated from the 194 records in the countries array.",
+    "The public list includes eight fictional ocean fleet territories and Antarctica, so territory count is not equivalent to a standard country count.",
+    "The plundered counter differs from a third-party payment-provider figure; treat it as a product counter, not audited net revenue."
+  ]
+}

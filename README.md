@@ -27,3 +27,7 @@ Then open <http://localhost:8080>.
 - Add moderation and data freshness workflows
 - Move map and search data to an API/database
 
+## Product research
+
+- [WARMAP analysis (2026-09-03)](docs/research/warmap-analysis-2026-09-03.md)
+- [WARMAP public-state summary](docs/research/warmap-state-summary-2026-09-03.json)
