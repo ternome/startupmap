@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Explore startups around the world on StartupMap." />
+    <title>StartupMap — Explore the world's startups</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="StartupMap home"><span class="brand-mark">✦</span> startupmap</a>
+      <div class="topbar-meta"><span class="status-dot"></span> <span id="startup-count">0</span> startups mapped</div>
+      <button class="outline-button" type="button" id="submit-button">＋ Add startup</button>
+    </header>
+
+    <main class="shell">
+      <section class="intro">
+        <p class="eyebrow">THE GLOBAL STARTUP ECOSYSTEM</p>
+        <h1>Find the ideas<br /><em>shaping tomorrow.</em></h1>
+        <p class="lede">A living map of ambitious startups, from first prototype to global scale.</p>
+      </section>
+
+      <section class="workspace" aria-label="Startup map explorer">
+        <aside class="sidebar">
+          <div class="search-wrap"><span>⌕</span><input id="search" type="search" placeholder="Search startups or cities" /></div>
+          <div class="filter-row" id="filters" role="group" aria-label="Filter by sector"></div>
+          <div class="results-header"><span>DISCOVERED STARTUPS</span><span id="result-count">0</span></div>
+          <div id="startup-list" class="startup-list"></div>
+        </aside>
+        <div class="map-wrap">
+          <div id="map"></div>
+          <div class="map-hint">Drag to explore · Click a marker to open a profile</div>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
