@@ -1,0 +1,17 @@
+{
+  "name": "StartupMap",
+  "short_name": "StartupMap",
+  "description": "A curated, source-backed map of startups around the world.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#101310",
+  "theme_color": "#101310",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

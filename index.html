@@ -3,43 +3,240 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Explore startups around the world on StartupMap." />
-    <title>StartupMap — Explore the world's startups</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="styles.css" />
+    <meta name="theme-color" content="#101310" />
+    <meta name="description" content="Explore a curated, source-backed collection of startups by geography and sector." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="StartupMap" />
+    <meta property="og:title" content="StartupMap — Discover startups by place" />
+    <meta property="og:description" content="A curated, source-backed map of startups across regions and sectors." />
+    <meta property="og:image" content="/social-card.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="StartupMap — Discover startups by place" />
+    <meta name="twitter:description" content="A curated, source-backed map of startups across regions and sectors." />
+    <meta name="twitter:image" content="/social-card.svg" />
+    <link rel="canonical" href="/" id="canonical-link" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <title>StartupMap — Discover startups by place</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "StartupMap",
+        "description": "A curated, source-backed collection of startups across regions and sectors.",
+        "isAccessibleForFree": true,
+        "about": { "@type": "Thing", "name": "Startup companies" }
+      }
+    </script>
   </head>
   <body>
+    <a class="skip-link" href="#explorer">Skip to startup explorer</a>
     <header class="topbar">
-      <a class="brand" href="/" aria-label="StartupMap home"><span class="brand-mark">✦</span> startupmap</a>
-      <div class="topbar-meta"><span class="status-dot"></span> <span id="startup-count">0</span> startups mapped</div>
-      <button class="outline-button" type="button" id="submit-button">＋ Add startup</button>
+      <a class="brand" href="/" aria-label="StartupMap home">
+        <span class="brand-mark" aria-hidden="true">✦</span>
+        <span>startupmap</span>
+      </a>
+      <nav class="topnav" aria-label="Primary navigation">
+        <a href="#methodology">Methodology</a>
+        <button class="button button--outline" type="button" data-open-submit>Add a startup</button>
+      </nav>
     </header>
 
-    <main class="shell">
-      <section class="intro">
-        <p class="eyebrow">THE GLOBAL STARTUP ECOSYSTEM</p>
-        <h1>Find the ideas<br /><em>shaping tomorrow.</em></h1>
-        <p class="lede">A living map of ambitious startups, from first prototype to global scale.</p>
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">A CURATED GLOBAL DIRECTORY</p>
+          <h1 id="page-title">Find ambitious companies<br /><em>through place.</em></h1>
+        </div>
+        <div class="hero-note">
+          <p>
+            Explore <strong id="startup-total">27</strong> source-backed startup profiles across
+            <strong id="region-total">8</strong> regions. A focused launch collection—not a complete census.
+          </p>
+          <a href="#explorer" class="text-link">Start exploring <span aria-hidden="true">↓</span></a>
+        </div>
       </section>
 
-      <section class="workspace" aria-label="Startup map explorer">
-        <aside class="sidebar">
-          <div class="search-wrap"><span>⌕</span><input id="search" type="search" placeholder="Search startups or cities" /></div>
-          <div class="filter-row" id="filters" role="group" aria-label="Filter by sector"></div>
-          <div class="results-header"><span>DISCOVERED STARTUPS</span><span id="result-count">0</span></div>
-          <div id="startup-list" class="startup-list"></div>
+      <section class="explorer" id="explorer" aria-labelledby="explorer-title">
+        <h2 id="explorer-title" class="visually-hidden">Explore startups</h2>
+        <aside class="discovery-panel" aria-label="Search and startup results">
+          <div class="discovery-controls">
+            <label class="search-field" for="search">
+              <span class="search-icon" aria-hidden="true">⌕</span>
+              <span class="visually-hidden">Search startups</span>
+              <input id="search" type="search" autocomplete="off" placeholder="Search name, city, country, sector…" />
+            </label>
+
+            <div class="filter-grid">
+              <label>
+                <span>Sector</span>
+                <select id="sector-filter"><option>All sectors</option></select>
+              </label>
+              <label>
+                <span>Region</span>
+                <select id="region-filter"><option>All regions</option></select>
+              </label>
+            </div>
+
+            <div class="filter-status">
+              <p id="result-count" aria-live="polite">27 startups</p>
+              <button class="text-button" id="reset-filters" type="button" disabled>Reset filters</button>
+            </div>
+          </div>
+
+          <div class="result-scroll" tabindex="-1">
+            <ul id="startup-list" class="startup-list" aria-label="Startup results"></ul>
+            <div id="empty-state" class="empty-state" hidden>
+              <p>No startups match these filters.</p>
+              <button class="button button--solid" id="empty-reset" type="button">Show all startups</button>
+            </div>
+          </div>
         </aside>
-        <div class="map-wrap">
-          <div id="map"></div>
-          <div class="map-hint">Drag to explore · Click a marker to open a profile</div>
+
+        <div class="map-panel" aria-label="Interactive startup map">
+          <div id="map" role="application" aria-label="Map showing startup locations"></div>
+          <div class="map-caption">
+            <span>Map is an optional visual view. Every result is available in the list.</span>
+            <span>Country outlines: Natural Earth, public domain</span>
+          </div>
+          <div id="map-status" class="map-status" role="status" hidden>
+            <strong>The interactive map is unavailable.</strong>
+            <span>The searchable result list still works.</span>
+            <button id="retry-map" class="text-button" type="button">Reload map</button>
+          </div>
         </div>
+      </section>
+
+      <section class="methodology" id="methodology" aria-labelledby="methodology-title">
+        <div>
+          <p class="eyebrow">ABOUT THE DATA</p>
+          <h2 id="methodology-title">Small, sourced, and honest by design.</h2>
+        </div>
+        <div class="methodology-grid">
+          <article>
+            <span class="method-number">01</span>
+            <h3>Curated scope</h3>
+            <p>This launch collection favors geographic and sector breadth. Inclusion is editorial, not a ranking or endorsement.</p>
+          </article>
+          <article>
+            <span class="method-number">02</span>
+            <h3>Public evidence</h3>
+            <p>Each profile links to at least one public source and shows when its facts were last checked. City pins are approximate.</p>
+          </article>
+          <article>
+            <span class="method-number">03</span>
+            <h3>Open corrections</h3>
+            <p>Submissions and corrections open transparent GitHub issues for review. No payment can change factual directory data.</p>
+          </article>
+        </div>
+        <button class="button button--outline" type="button" data-open-submit>Suggest a startup</button>
       </section>
     </main>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="app.js"></script>
+    <footer class="footer">
+      <p><span class="brand-mark" aria-hidden="true">✦</span> StartupMap is an open, curated MVP.</p>
+      <div>
+        <a href="https://github.com/ternome/startupmap" target="_blank" rel="noopener noreferrer">Source on GitHub <span class="visually-hidden">(opens in a new tab)</span></a>
+        <a href="#methodology">Methodology</a>
+      </div>
+    </footer>
+
+    <dialog id="profile-dialog" class="dialog profile-dialog" aria-labelledby="profile-name">
+      <div class="dialog-frame">
+        <div class="dialog-header">
+          <p class="eyebrow">STARTUP PROFILE</p>
+          <button class="icon-button" type="button" data-close-profile aria-label="Close startup profile">×</button>
+        </div>
+        <div class="profile-content">
+          <div class="profile-heading">
+            <p id="profile-sector" class="profile-sector"></p>
+            <h2 id="profile-name"></h2>
+            <p id="profile-location" class="profile-location"></p>
+          </div>
+          <p id="profile-description" class="profile-description"></p>
+          <a id="profile-website" class="button button--solid button--full" target="_blank" rel="noopener noreferrer">
+            Visit website <span aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span>
+          </a>
+
+          <section class="verification" aria-labelledby="verification-title">
+            <p class="section-label" id="verification-title">VERIFICATION</p>
+            <dl>
+              <div><dt>Last checked</dt><dd id="profile-verified"></dd></div>
+              <div><dt>Map precision</dt><dd>Approximate city center</dd></div>
+            </dl>
+            <div>
+              <p class="verification-source-label">Public sources</p>
+              <ul id="profile-sources" class="source-list"></ul>
+            </div>
+          </section>
+
+          <section class="share-block" aria-labelledby="share-title">
+            <p class="section-label" id="share-title">SHARE THIS PROFILE</p>
+            <div class="share-actions">
+              <button id="copy-link" class="button button--outline" type="button">Copy link</button>
+              <button id="share-profile" class="button button--outline" type="button" hidden>Share…</button>
+            </div>
+            <label id="share-fallback" class="share-fallback" hidden>
+              <span>Select and copy this URL:</span>
+              <input id="share-url" type="text" readonly />
+            </label>
+            <p id="share-status" class="inline-status" aria-live="polite"></p>
+          </section>
+
+          <a id="correction-link" class="correction-link" target="_blank" rel="noopener noreferrer">
+            Report or correct this data <span aria-hidden="true">↗</span><span class="visually-hidden"> (opens a public GitHub issue in a new tab)</span>
+          </a>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog id="submit-dialog" class="dialog submit-dialog" aria-labelledby="submit-title">
+      <div class="dialog-frame">
+        <div class="dialog-header">
+          <div>
+            <p class="eyebrow">COMMUNITY SUBMISSION</p>
+            <h2 id="submit-title">Suggest a startup</h2>
+          </div>
+          <button class="icon-button" type="button" data-close-submit aria-label="Close submission form">×</button>
+        </div>
+        <p class="form-intro">
+          This form prepares a public GitHub issue for review. You will confirm and submit it on GitHub;
+          completing this form does not add a company automatically.
+        </p>
+        <form id="submit-form">
+          <div class="form-grid">
+            <label>Company name <input name="name" required maxlength="100" /></label>
+            <label>Official website <input name="website" type="url" required placeholder="https://…" /></label>
+            <label>City <input name="city" required maxlength="100" /></label>
+            <label>Country <input name="country" required maxlength="100" /></label>
+            <label>Sector <input name="sector" required maxlength="80" /></label>
+            <label>Public source <input name="source" type="url" required placeholder="https://…" /></label>
+          </div>
+          <label>
+            Concise description
+            <textarea name="description" required maxlength="360" rows="4" placeholder="What does the company build or provide?"></textarea>
+          </label>
+          <label>
+            Optional curator note
+            <textarea name="note" maxlength="500" rows="3" placeholder="Anything reviewers should know"></textarea>
+          </label>
+          <p class="form-privacy">All entered information will be included in a public GitHub issue.</p>
+          <button class="button button--solid button--full" type="submit">Review issue on GitHub <span aria-hidden="true">↗</span></button>
+          <p id="submit-status" class="inline-status" aria-live="polite"></p>
+          <a id="submit-fallback" class="fallback-link" href="https://github.com/ternome/startupmap/issues/new/choose" target="_blank" rel="noopener noreferrer">
+            Open the issue form directly <span aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span>
+          </a>
+        </form>
+      </div>
+    </dialog>
+
+    <noscript>
+      <div class="noscript-banner">
+        StartupMap needs JavaScript for its map and filters. You can still
+        <a href="https://github.com/ternome/startupmap/tree/main/src/data">browse the source-backed dataset on GitHub</a>.
+      </div>
+    </noscript>
+
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>
