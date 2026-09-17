@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#101310" />
+    <meta name="theme-color" content="#070b10" />
     <meta name="description" content="Explore a curated, source-backed collection of startups by geography and sector." />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="StartupMap" />
@@ -30,126 +30,143 @@
     </script>
   </head>
   <body>
-    <a class="skip-link" href="#explorer">Skip to startup explorer</a>
-    <header class="topbar">
-      <a class="brand" href="/" aria-label="StartupMap home">
-        <span class="brand-mark" aria-hidden="true">✦</span>
-        <span>startupmap</span>
-      </a>
-      <nav class="topnav" aria-label="Primary navigation">
-        <a href="#methodology">Methodology</a>
-        <button class="button button--outline" type="button" data-open-submit>Add a startup</button>
-      </nav>
-    </header>
+    <a class="skip-link" href="#search">Skip to startup search</a>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="StartupMap home">
+          <span class="brand-symbol" aria-hidden="true">SM</span>
+          <span class="brand-name">startup<span>map</span></span>
+        </a>
 
-    <main>
-      <section class="hero" aria-labelledby="page-title">
-        <div>
-          <p class="eyebrow">A CURATED GLOBAL DIRECTORY</p>
-          <h1 id="page-title">Find ambitious companies<br /><em>through place.</em></h1>
+        <dl class="command-metrics" aria-label="Directory coverage">
+          <div><dt>Startups</dt><dd id="startup-total">27</dd></div>
+          <div><dt>Countries</dt><dd id="country-total">18</dd></div>
+          <div><dt>Regions</dt><dd id="region-total">8</dd></div>
+        </dl>
+
+        <nav class="topnav" aria-label="Primary navigation">
+          <button class="nav-link" type="button" data-open-methodology>About data</button>
+          <button class="button button--signal" type="button" data-open-submit>
+            <span aria-hidden="true">+</span> Add a startup
+          </button>
+        </nav>
+      </header>
+
+      <main class="workspace" id="explorer" aria-labelledby="page-title">
+        <h1 id="page-title" class="visually-hidden">Explore startups through place</h1>
+
+        <div class="map-panel" aria-label="Interactive startup map">
+          <div id="map" aria-label="Map showing approximate startup city locations"></div>
+          <div class="map-readout" aria-hidden="true">
+            <span class="pulse-dot"></span>
+            <span>Global discovery field</span>
+            <span class="map-coordinates">18°N / 8°E</span>
+          </div>
+          <div class="map-caption">
+            <span>City pins are approximate. Color adds geographic contrast only.</span>
+            <span>Natural Earth · public domain</span>
+          </div>
+          <div id="map-status" class="map-status" role="status" hidden>
+            <span class="status-symbol" aria-hidden="true">!</span>
+            <span><strong>The map is unavailable.</strong> The searchable list still works.</span>
+            <button id="retry-map" class="text-button" type="button">Reload</button>
+          </div>
         </div>
-        <div class="hero-note">
-          <p>
-            Explore <strong id="startup-total">27</strong> source-backed startup profiles across
-            <strong id="region-total">8</strong> regions. A focused launch collection—not a complete census.
-          </p>
-          <a href="#explorer" class="text-link">Start exploring <span aria-hidden="true">↓</span></a>
-        </div>
-      </section>
 
-      <section class="explorer" id="explorer" aria-labelledby="explorer-title">
-        <h2 id="explorer-title" class="visually-hidden">Explore startups</h2>
-        <aside class="discovery-panel" aria-label="Search and startup results">
-          <div class="discovery-controls">
-            <label class="search-field" for="search">
-              <span class="search-icon" aria-hidden="true">⌕</span>
-              <span class="visually-hidden">Search startups</span>
-              <input id="search" type="search" autocomplete="off" placeholder="Search name, city, country, sector…" />
-            </label>
+        <aside class="discovery-panel floating-panel" aria-label="Search and startup results">
+          <button
+            id="mobile-results-toggle"
+            class="sheet-handle"
+            type="button"
+            aria-expanded="true"
+            aria-controls="discovery-body"
+          >
+            <span class="handle-bar" aria-hidden="true"></span>
+            <span><strong>Explore startups</strong><small id="mobile-result-count">27 results</small></span>
+            <span class="sheet-chevron" aria-hidden="true">⌄</span>
+          </button>
 
-            <div class="filter-grid">
-              <label>
-                <span>Sector</span>
-                <select id="sector-filter"><option>All sectors</option></select>
-              </label>
-              <label>
-                <span>Region</span>
-                <select id="region-filter"><option>All regions</option></select>
-              </label>
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> Curated index / 01</p>
+              <h2>Discover by place</h2>
             </div>
-
-            <div class="filter-status">
-              <p id="result-count" aria-live="polite">27 startups</p>
-              <button class="text-button" id="reset-filters" type="button" disabled>Reset filters</button>
-            </div>
+            <span class="panel-code" aria-hidden="true">GLB</span>
           </div>
 
-          <div class="result-scroll" tabindex="-1">
-            <ul id="startup-list" class="startup-list" aria-label="Startup results"></ul>
-            <div id="empty-state" class="empty-state" hidden>
-              <p>No startups match these filters.</p>
-              <button class="button button--solid" id="empty-reset" type="button">Show all startups</button>
+          <div id="discovery-body" class="discovery-body">
+            <div class="discovery-controls">
+              <label class="search-field" for="search">
+                <span class="search-icon" aria-hidden="true">⌕</span>
+                <span class="visually-hidden">Search startups</span>
+                <input id="search" type="search" autocomplete="off" placeholder="Search name, city, sector…" />
+                <kbd aria-hidden="true">/</kbd>
+              </label>
+
+              <div class="filter-grid">
+                <label>
+                  <span>Sector</span>
+                  <select id="sector-filter"><option>All sectors</option></select>
+                </label>
+                <label>
+                  <span>Region</span>
+                  <select id="region-filter"><option>All regions</option></select>
+                </label>
+              </div>
+
+              <div class="filter-status">
+                <p id="result-count" aria-live="polite">27 startups</p>
+                <button class="text-button" id="reset-filters" type="button" disabled>Reset</button>
+              </div>
+            </div>
+
+            <div class="result-scroll" tabindex="-1">
+              <ul id="startup-list" class="startup-list" aria-label="Startup results"></ul>
+              <div id="empty-state" class="empty-state" hidden>
+                <span aria-hidden="true">00</span>
+                <p>No startups match these filters.</p>
+                <button class="button button--solid" id="empty-reset" type="button">Show all startups</button>
+              </div>
             </div>
           </div>
         </aside>
 
-        <div class="map-panel" aria-label="Interactive startup map">
-          <div id="map" role="application" aria-label="Map showing startup locations"></div>
-          <div class="map-caption">
-            <span>Map is an optional visual view. Every result is available in the list.</span>
-            <span>Country outlines: Natural Earth, public domain</span>
+        <aside class="intel-panel floating-panel" aria-label="About the StartupMap collection">
+          <div class="intel-header">
+            <p class="eyebrow">Field notes / 02</p>
+            <span aria-hidden="true">⌖</span>
           </div>
-          <div id="map-status" class="map-status" role="status" hidden>
-            <strong>The interactive map is unavailable.</strong>
-            <span>The searchable result list still works.</span>
-            <button id="retry-map" class="text-button" type="button">Reload map</button>
+          <h2>A focused global launch collection.</h2>
+          <p class="intel-copy">Explore source-backed company profiles across regions and sectors. This is a curated directory, not a complete census or ranking.</p>
+          <dl class="integrity-grid">
+            <div><dt>Coverage</dt><dd>Global</dd></div>
+            <div><dt>Pin precision</dt><dd>City-level</dd></div>
+            <div><dt>Evidence</dt><dd>Public links</dd></div>
+            <div><dt>Ranking</dt><dd>None</dd></div>
+          </dl>
+          <div class="legend">
+            <p class="section-label">Map key</p>
+            <span><i class="legend-marker"></i> Startup location</span>
+            <span><i class="legend-cluster">3</i> Nearby startups</span>
           </div>
-        </div>
-      </section>
-
-      <section class="methodology" id="methodology" aria-labelledby="methodology-title">
-        <div>
-          <p class="eyebrow">ABOUT THE DATA</p>
-          <h2 id="methodology-title">Small, sourced, and honest by design.</h2>
-        </div>
-        <div class="methodology-grid">
-          <article>
-            <span class="method-number">01</span>
-            <h3>Curated scope</h3>
-            <p>This launch collection favors geographic and sector breadth. Inclusion is editorial, not a ranking or endorsement.</p>
-          </article>
-          <article>
-            <span class="method-number">02</span>
-            <h3>Public evidence</h3>
-            <p>Each profile links to at least one public source and shows when its facts were last checked. City pins are approximate.</p>
-          </article>
-          <article>
-            <span class="method-number">03</span>
-            <h3>Open corrections</h3>
-            <p>Submissions and corrections open transparent GitHub issues for review. No payment can change factual directory data.</p>
-          </article>
-        </div>
-        <button class="button button--outline" type="button" data-open-submit>Suggest a startup</button>
-      </section>
-    </main>
-
-    <footer class="footer">
-      <p><span class="brand-mark" aria-hidden="true">✦</span> StartupMap is an open, curated MVP.</p>
-      <div>
-        <a href="https://github.com/ternome/startupmap" target="_blank" rel="noopener noreferrer">Source on GitHub <span class="visually-hidden">(opens in a new tab)</span></a>
-        <a href="#methodology">Methodology</a>
-      </div>
-    </footer>
+          <button class="text-link" type="button" data-open-methodology>Read the methodology <span aria-hidden="true">↗</span></button>
+        </aside>
+      </main>
+    </div>
 
     <dialog id="profile-dialog" class="dialog profile-dialog" aria-labelledby="profile-name">
       <div class="dialog-frame">
+        <div class="drawer-grip" aria-hidden="true"></div>
         <div class="dialog-header">
-          <p class="eyebrow">STARTUP PROFILE</p>
+          <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> Startup profile</p>
           <button class="icon-button" type="button" data-close-profile aria-label="Close startup profile">×</button>
         </div>
         <div class="profile-content">
           <div class="profile-heading">
-            <p id="profile-sector" class="profile-sector"></p>
+            <div class="profile-identity">
+              <span id="profile-monogram" class="profile-monogram" aria-hidden="true"></span>
+              <p id="profile-sector" class="profile-sector"></p>
+            </div>
             <h2 id="profile-name"></h2>
             <p id="profile-location" class="profile-location"></p>
           </div>
@@ -190,8 +207,39 @@
       </div>
     </dialog>
 
+    <dialog id="methodology-dialog" class="dialog methodology-dialog" aria-labelledby="methodology-title">
+      <div class="dialog-frame">
+        <div class="dialog-header">
+          <div>
+            <p class="eyebrow">About the data</p>
+            <h2 id="methodology-title">Small, sourced, and honest by design.</h2>
+          </div>
+          <button class="icon-button" type="button" data-close-methodology aria-label="Close methodology">×</button>
+        </div>
+        <div class="methodology-content">
+          <article>
+            <span class="method-number">01 / Curated scope</span>
+            <p>This launch collection favors geographic and sector breadth. Inclusion is editorial, not a ranking, endorsement, or complete startup census.</p>
+          </article>
+          <article>
+            <span class="method-number">02 / Public evidence</span>
+            <p>Every profile links to at least one public source and shows when its facts were last checked. Map pins use approximate city centers.</p>
+          </article>
+          <article>
+            <span class="method-number">03 / Open corrections</span>
+            <p>Submissions and corrections open transparent GitHub issues for review. No payment can change factual directory data.</p>
+          </article>
+          <div class="methodology-actions">
+            <button class="button button--solid" type="button" data-open-submit>Suggest a startup</button>
+            <a href="https://github.com/ternome/startupmap" target="_blank" rel="noopener noreferrer">View source on GitHub <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
     <dialog id="submit-dialog" class="dialog submit-dialog" aria-labelledby="submit-title">
       <div class="dialog-frame">
+        <div class="drawer-grip" aria-hidden="true"></div>
         <div class="dialog-header">
           <div>
             <p class="eyebrow">COMMUNITY SUBMISSION</p>
