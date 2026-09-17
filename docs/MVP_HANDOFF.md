@@ -1,9 +1,12 @@
 # StartupMap MVP handoff
 
-**Prepared:** 2026-09-17  
-**Branch:** `codex/mvp`  
-**Commit:** recorded after final commit below  
-**Deployment:** non-interactive Vercel attempt recorded below
+**Prepared:** 2026-09-17
+
+**Branch:** `codex/mvp`
+
+**Implementation commit:** `a05bcdea7e8c14747805b24f58d4fdd1174f2be0`
+
+**Deployment:** repository ready; Vercel credentials were not present
 
 ## Delivered
 
@@ -63,10 +66,22 @@ the delivery sequence.
 
 ## Git and deployment status
 
-This section is finalized after commit, non-interactive push, and Vercel checks.
+- Implementation commit: `a05bcdea7e8c14747805b24f58d4fdd1174f2be0`
+  (`Build credible StartupMap MVP`).
+- Push: succeeded to `origin/codex/mvp`. GitHub offered the pull-request URL
+  <https://github.com/ternome/startupmap/pull/new/codex/mvp>.
+- Vercel: production deployment was not attempted because the required
+  non-interactive identity check (`npx --yes vercel@39.4.2 whoami`) returned
+  `No existing credentials found`. No login flow was opened and no token was
+  requested or exposed.
+- Authenticated one-command next step:
 
-- Commit: pending
-- Push: pending
-- Vercel: pending
-- Manual fallback: follow [`DEPLOY.md`](../DEPLOY.md); no environment variables
-  are required.
+  ```bash
+  npm ci && npm run check && npx vercel --prod --yes
+  ```
+
+- Dashboard alternative: import `ternome/startupmap`, select branch
+  `codex/mvp` (or merge it first), choose Vite, build with `npm run build`, and
+  publish `dist`. No environment variables are required. See
+  [`DEPLOY.md`](../DEPLOY.md) for the full smoke checklist and canonical-domain
+  follow-up.
