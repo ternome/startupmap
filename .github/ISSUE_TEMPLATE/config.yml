@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Read the data methodology
+    url: https://github.com/ternome/startupmap/blob/main/docs/DATA_SCHEMA.md
+    about: Review the inclusion fields and source policy before submitting.

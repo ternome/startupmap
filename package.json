@@ -1,0 +1,33 @@
+{
+  "name": "startupmap",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A curated, map-first directory of startups around the world.",
+  "scripts": {
+    "dev": "vite",
+    "validate:data": "node scripts/validate-data.mjs",
+    "lint": "eslint .",
+    "test": "node --test",
+    "test:e2e": "playwright test",
+    "build": "npm run validate:data && vite build",
+    "preview": "vite preview",
+    "check": "npm run validate:data && npm run lint && npm test && npm run build"
+  },
+  "dependencies": {
+    "leaflet": "1.9.4",
+    "leaflet.markercluster": "1.5.3",
+    "topojson-client": "3.1.0",
+    "world-atlas": "2.0.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.5",
+    "@playwright/test": "1.55.1",
+    "eslint": "9.39.5",
+    "globals": "15.14.0",
+    "vite": "6.4.3"
+  },
+  "engines": {
+    "node": ">=18.18"
+  }
+}
