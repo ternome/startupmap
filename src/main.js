@@ -8,12 +8,18 @@ import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import '../styles.css';
 
 import { startups } from './data/startups.js';
-import { validateStartupDataset } from './data/schema.js';
+import {
+  formatStartupValidationError,
+  validateStartupDataset,
+} from './data/schema.js';
 import { buildStartupUrl, filterStartups, getStartupSlugFromUrl, uniqueSorted } from './lib/discovery.js';
 import { buildCorrectionIssueUrl, buildSubmissionIssueUrl } from './lib/issues.js';
 
 const validationErrors = validateStartupDataset(startups);
-if (validationErrors.length > 0) throw new Error(`Invalid startup dataset: ${validationErrors.join(' ')}`);
+if (validationErrors.length > 0) {
+  const details = validationErrors.map(formatStartupValidationError).join(' ');
+  throw new Error(`Invalid startup dataset: ${details}`);
+}
 
 const startupBySlug = new Map(startups.map((startup) => [startup.slug, startup]));
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
